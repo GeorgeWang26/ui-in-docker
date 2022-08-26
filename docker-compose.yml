@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  ros_ui:
+    image: ros_ui:latest
+    build:
+      context: .
+      dockerfile: ros_ui_dockerfile
+      args:
+        UID: 1000
+        GID: 15
+        UNAME: george
+        PASS: ubuntu
+    environment:
+      - DISPLAY
+      # - UDEV=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /home/george:/home/george
+      - /dev:/dev
+    # devices:
+    #   - '/dev:/dev'
+    network_mode: host
+    privileged: true
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
+    command: sleep infinity

@@ -1,0 +1,20 @@
+FROM osrf/ros:humble-desktop
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y vim python3-pip ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-turtlebot3* ros-humble-joint-state-publisher-gui ros-humble-xacro ros-humble-gazebo-ros-pkgs ros-humble-robot-localization ros-humble-slam-toolbox ros-humble-tf-transformations ros-humble-rmw-cyclonedds-cpp 
+
+RUN python3 -m pip install lxml
+ARG UNAME=root
+ARG UID=0
+ARG GID=0
+ARG PASS=ubuntu
+
+RUN groupadd -o -g $GID $UNAME && \
+    useradd -m -u $UID -g $GID -G sudo -o -s /bin/bash $UNAME && \
+    echo "$UNAME:$PASS" | chpasswd
+
+USER $UNAME
+WORKDIR /home/$UNAME
+
+CMD [ "/bin/bash" ]
